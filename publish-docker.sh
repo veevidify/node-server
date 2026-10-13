@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# invoke:
+# invoke: ./publish-docker.sh 0.0.1
+echo "$DOCKERHUB_TOKEN" | podman login docker.io \
+  --username veevidify \
+  --password-stdin
+
 VERSION=${1:-0.0.1}
 
 # Build a local image

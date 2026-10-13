@@ -1,5 +1,4 @@
-FROM ubuntu:24.04
-RUN apt update -y && apt install nodejs -y
+FROM node:26-alpine
 USER appuser
 COPY index.js /app/index.js
 WORKDIR /app
