@@ -1,11 +1,10 @@
 const http = require('http');
-const url = require('url');
 
 const server = http.createServer((req, res) => {
   // Parse the URL
-  const parsedUrl = url.parse(req.url, true);
+  const url = new URL(req.url, `http://${req.headers.host}/`);
 
-  const { pathname, query } = parsedUrl;
+  const { pathname, query } = url;
 
 	if (pathname == "/health") {
 		res.writeHead(200, { 'Content-Type': 'application/json' });
