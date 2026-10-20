@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "vee.vidify@gmail.com",
+	"engines": {
+		"node": ">=22 <26"
+	},
   "license": "ISC"
 }
