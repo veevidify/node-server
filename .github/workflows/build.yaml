@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: node:26-alpine
+    runs-on: node:26
 
     steps:
       - uses: actions/checkout@v6
