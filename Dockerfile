@@ -7,5 +7,5 @@ COPY index.js /app/index.js
 WORKDIR /app
 
 EXPOSE 8080
-ENTRYPOINT ["node", "/app/index.js"]
+CMD ["node", "/app/index.js"]
 
