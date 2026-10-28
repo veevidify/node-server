@@ -1,7 +1,9 @@
 const http = require('http');
 
 const config = {
-	nodeVersion: process.version
+	nodeVersion: process.version,
+	APP_ENV: process.env.APP_ENV,
+	APP_IMAGE_TAG: process.env.APP_IMAGE_TAG
 };
 
 const server = http.createServer((req, res) => {
