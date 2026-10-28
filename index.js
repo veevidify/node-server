@@ -3,7 +3,8 @@ const http = require('http');
 const config = {
 	nodeVersion: process.version,
 	APP_ENV: process.env.APP_ENV,
-	APP_IMAGE_TAG: process.env.APP_IMAGE_TAG
+	APP_IMAGE_TAG: process.env.APP_IMAGE_TAG,
+	APP_DB_HOST: process.env.APP_DB_HOST
 };
 
 const server = http.createServer((req, res) => {
