@@ -1,17 +1,22 @@
 const http = require('http');
+const fs = require('fs');
 
 const config = {
 	nodeVersion: process.version,
 	APP_ENV: process.env.APP_ENV,
 	APP_IMAGE_TAG: process.env.APP_IMAGE_TAG,
-	APP_DB_HOST: process.env.APP_DB_HOST
+	APP_DB_HOST: process.env.APP_DB_HOST,
+	LOG_DIR: process.env.LOG_DIR
 };
 
 const server = http.createServer((req, res) => {
-  // Parse the URL
-  const url = new URL(req.url, `http://${req.headers.host}/`);
+	// Parse the URL
+	const url = new URL(req.url, `http://${req.headers.host}/`);
 
-  const { pathname, query } = url;
+	const { pathname, query } = url;
+
+	const log = `${(new Date()).toISOString()}: ${JSON.stringify({ pathname, query })}`;
+	console.log(log);
 
 	if (pathname == "/health") {
 		res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -27,6 +32,19 @@ const server = http.createServer((req, res) => {
 		res.writeHead(500, { 'Content-Type': 'application/json' });
 		res.end(JSON.stringify({ status: "FAILED" }, null, 2));
 		return;
+	}
+	if (pathname == "/log-file") {
+		try {
+			fs.writeFileSync(`${config.LOG_DIR}/log.txt`, log);
+			res.writeHead(200, { 'Content-Type': 'application/json' });
+			res.end(JSON.stringify({ status: "OK" }, null, 2));
+			return;
+		} catch (e) {
+			console.error(`Failed to write log to file in LOG_DIR=${config.LOG_DIR}`, e);
+			res.writeHead(500, { 'Content-Type': 'application/json' });
+			res.end(JSON.stringify({ status: "FAILED" }, null, 2));
+			return;
+		}
 	}
 
 	res.writeHead(404, { 'Content-Type': 'application/json' });
