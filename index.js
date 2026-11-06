@@ -1,5 +1,5 @@
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs/promises');
 
 const config = {
 	nodeVersion: process.version,
@@ -9,7 +9,7 @@ const config = {
 	LOG_DIR: process.env.LOG_DIR
 };
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
 	// Parse the URL
 	const url = new URL(req.url, `http://${req.headers.host}/`);
 
@@ -35,7 +35,7 @@ const server = http.createServer((req, res) => {
 	}
 	if (pathname == "/log-file") {
 		try {
-			fs.writeFileSync(`${config.LOG_DIR}/log.txt`, log);
+			await fs.appendFile(`${config.LOG_DIR}/log.txt`, log + '\n');
 			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.end(JSON.stringify({ status: "OK" }, null, 2));
 			return;
